@@ -1,7 +1,7 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
 import PublishRow from './publishrow.js'
-import GoodListData from '../../containers/Found Goods List.json'
+import GoodListData from '../../page/Found Goods List.json'
 
 
 class PublishList extends React.Component {

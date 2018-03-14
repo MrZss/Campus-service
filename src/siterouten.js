@@ -1,19 +1,19 @@
 import {BrowserRouter, Route, hashHistory, Switch} from 'react-router-dom';
 import React from 'react';
-import  App from './js/containers/navigationpage/App.js'
-import UserLogin from './js/containers/navigationpage/login'
-import UserRegistrationForm from './js/containers/navigationpage/userRegistrationForm'
+import  App from './js/page/navigationpage/App.js'
+import UserLogin from './js/page/navigationpage/login'
+import UserRegistrationForm from './js/page/navigationpage/userRegistrationForm'
 import FooteBar from './js/components/footebar.js'
-import FoundList from './js/containers/foundpage/foundlist.js'
-import LostList from './js/containers/lostpage/lostlist.js'
-import MyInterFace from './js/containers/personalpage/myinterface.js'
-import FoundDetail from './js/containers/foundpage/founddetail.js'
-import LostDetail from './js/containers/lostpage/lostdetail.js'
-import PublishType from './js/containers/personalpage/publishtype.js'
-import WrappedLostPublish from './js/containers/personalpage/lostpublish.js'
-import WrappedFoundPublish from './js/containers/personalpage/foundpublish.js'
-import WrappedLostdetailPublish from './js/containers/personalpage/lostdetailpublish.js'
-import WrappedFounddetailPublish from './js/containers/personalpage/founddetailpublish.js'
+import FoundList from './js/page/foundpage/foundlist.js'
+import LostList from './js/page/lostpage/lostlist.js'
+import MyInterFace from './js/page/personalpage/myinterface.js'
+import FoundDetail from './js/page/foundpage/founddetail.js'
+import LostDetail from './js/page/lostpage/lostdetail.js'
+import PublishType from './js/page/personalpage/publishtype.js'
+import WrappedLostPublish from './js/page/personalpage/lostpublish.js'
+import WrappedFoundPublish from './js/page/personalpage/foundpublish.js'
+import WrappedLostdetailPublish from './js/page/personalpage/lostdetailpublish.js'
+import WrappedFounddetailPublish from './js/page/personalpage/founddetailpublish.js'
 
 class SiteRouter extends React.Component {
     render() {
