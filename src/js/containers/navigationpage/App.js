@@ -6,35 +6,39 @@ import { CookiesProvider } from 'react-cookie'
 class App extends Component {
     constructor(props){
         super(props);
+        this.state={
+            userName:'',
+
+        }
+    }
+    componentWillMount(){
         try{
-            console.log('缓存key:',localStorage.getItem('key'));
-            if(localStorage.getItem('key') !==null){
-                this.state={
-                    userName:this.props.location.state.nickName,
-                    key:localStorage.getItem('key'),
+            if(localStorage.getItem('gengdanRoyalEmpireToken') !==null){
+                this.setState({
+                    userName:localStorage.getItem('gengdanRoyalEmpireUsername'),
+                    key:localStorage.getItem('gengdanRoyalEmpireToken'),
                     login:true,
-                };
+                });
             }else{
-                this.state={
+                this.setState({
                     userName:undefined,
                     loginStatus:undefined,
                     login:false,
                     key:null
-                };
+                });
             }
         }catch(err){
-            this.state={
+            this.setState({
                 userName:undefined,
                 loginStatus:undefined,
                 login:false,
                 key:null
-            };
+            });
         }
-        //console.log(this.state.key)
+
 
 
     }
-
     clickHandleForum(){
         if(this.state.login === true){
             function jump(){
@@ -47,7 +51,7 @@ class App extends Component {
 
     }
     clickHandleClaim(){
-        if(localStorage.getItem('key') !== null){
+        if(this.state.login === true){
             this.props.history.push('/found')
         }else{
             this.props.history.push('/login')
@@ -55,7 +59,7 @@ class App extends Component {
 
     }
     clickHandleMap(){
-        if( localStorage.getItem('key') !== null){
+        if( this.state.login === true){
             function jump(){
                 window.open('http://gdmap.applinzi.com')
             }
@@ -91,16 +95,16 @@ class App extends Component {
             })
                 .then((res) => {
                     if (res.ok) {
-                        console.log(res);
                         this.setState({login: false});
-                        localStorage.removeItem('key');
-                        console.log('缓存key是：', localStorage.getItem('key'));
+                        localStorage.removeItem('gengdanRoyalEmpireToken');
+                        localStorage.removeItem('gengdanRoyalEmpireUsername');
+                        localStorage.removeItem('gengdanRoyalEmpirePassword');
                     } else {
                         alert("logout failed");
                     }
                 })
                 .catch(function (error) {
-                    console.log('logout failed', error)
+
                 })
         }
     }

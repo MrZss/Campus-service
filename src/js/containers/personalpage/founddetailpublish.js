@@ -30,10 +30,11 @@ class FounddetailPublish extends React.Component {
     static contextTypes = {
         router: PropTypes.object
     };
-
     constructor(props, context) {
         super(props, context);
         this.state = {
+            username:'',
+            key:'',
             goods_id: this.props.location.state.goods_id,
             confirmDirty: false,
             autoCompleteResult: [],
@@ -48,50 +49,50 @@ class FounddetailPublish extends React.Component {
                 url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
             }],
         };
-        console.log(this.state.goods_id)
-
     };
 
+    componentDidMount() {
+        try {
+            if (localStorage.getItem('gengdanRoyalEmpireToken') !== null) {
+                this.setState({
+                    userName: localStorage.getItem('gengdanRoyalEmpireUsername'),
+                    key: localStorage.getItem('gengdanRoyalEmpireToken'),
+                    login: true,
+                });
+            } else {
+                alert("请先登录")
+                this.props.history.push('/login')
+            }
+        } catch (err) {
+            alert("请先登录")
+            this.props.history.push('/login')
+        }
+    }
 
-    // handleSubmit = (e) => {
-    //     e.preventDefault();
-    //     this.props.form.validateFields((err, values) => {
-    //         if (!err) {
-    //             console.log('Received values of form: ', values);
-    //         }
-    //     });
-    // };
-    // handleSelectChange = (value) => {
-    //     console.log(value);
-    //     this.props.form.setFieldsValue({
-    //         note: `Hi, ${value === 'male' ? 'man' : 'lady'}!`,
-    //     });
-    // }
+
 
     handleSubmit = (e) => {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
-                console.log(values)
                 if (!err) {
-
+                    let userid = localStorage.getItem('userId')
                     let phone = parseInt(values.phone)
                     let g_id = parseInt(this.state.goods_id)
-                    console.log(values.phone)
-                    fetch('http://47.94.17.111/api/v1/found_goods/?page=1&page_size=1', {
+                    fetch('http://47.94.17.111/api/v1/lost_goods/', {
                         method: 'POST',
                         headers: {
                             'Accept': 'application/json',
                             'Content-Type': 'application/json',
-                            'Authorization': 'Token 6663eeec7aab61768572a77bbbd6a44c83070516',
+                            'Authorization': 'Token' + ' ' + localStorage.getItem('gengdanRoyalEmpireToken'),
                         },
                         body: JSON.stringify({
                             title: values.title,
-                            account_username: 58,
+                            account_username: parseInt(userid),
                             goods_name: g_id,
                             area: values.area,
                             location: values.location,
                             time: null,
-                            status: "寻找失主中",
+                            status: "寻找物品中",
                             description: values.description,
                             temp_phone_number: phone,
                             temp_other_contact_information: values.information,
@@ -99,10 +100,9 @@ class FounddetailPublish extends React.Component {
                     }).then(res => res.text()
                     ).then((res) =>
                         this.context.router.history.push({
-                            pathname: '/lost',
+                            pathname: '/found',
                         })
                     ).catch(function (e) {
-                        console.log("Oops, error");
                         alert("网络错误，请重试")
                     });
                 }
@@ -113,59 +113,25 @@ class FounddetailPublish extends React.Component {
 
     }
 
-//上传图片
-
-    handleCancel = () => this.setState({previewVisible: false})
-    handlePreview = (file) => {
-        this.setState({
-            previewImage: file.url || file.thumbUrl,
-            previewVisible: true,
-        });
-    }
-
-    handleChange = ({fileList}) => this.setState({fileList})
 
 //详情输入框
-    onChange(editorState) {
-        console.log(toString(editorState));
-    }
 
     render() {
-        console.log(this.state.lostpublish_data)
         const titleConfig = {
             rules: [{
                 required: true, message: '请输入标题内容！',
             }],
         }
-
         const {TextArea} = Input;
         const {toString} = Mention;
         const {getFieldDecorator} = this.props.form;
         const {autoCompleteResult} = this.state;
-        const prefixSelector = getFieldDecorator('prefix', {
-            initialValue: '86',
-        })(
-            <Select style={{width: 60}}>
-                <Option value="86">+86</Option>
-                <Option value="87">+87</Option>
-            </Select>
-        );
-
-        const websiteOptions = autoCompleteResult.map(website => (
-            <AutoCompleteOption key={website}>{website}</AutoCompleteOption>
-        ));
         var selectStyle = {
             height: '100%',
             width: '100%',
         };
         //上传图片
         const {previewVisible, previewImage, fileList} = this.state;
-        const uploadButton = (
-            <div>
-                <Icon type="plus"/>
-                <div className="ant-upload-text">Upload</div>
-            </div>
-        );
         return (
             <div className="foudn_detail_wrap">
                 <div className="detail_title">描述详情</div>
@@ -193,6 +159,7 @@ class FounddetailPublish extends React.Component {
                                     <option value='B区教室'>B区教室</option>
                                     <option value='C区教室'>C区教室</option>
                                     <option value='D区教室'>D区教室</option>
+                                    <option value='食堂'>食堂</option>
                                     <option value='国际交流中心'>国际交流中心</option>
                                     <option value='学生公寓1号楼'>学生公寓1号楼</option>
                                     <option value='学生公寓2号楼'>学生公寓2号楼</option>
@@ -246,21 +213,6 @@ class FounddetailPublish extends React.Component {
                             <Input placeholder="例：18888888888"/>
                         )}
                     </FormItem>
-
-                    {/*后期添加*/}
-                    {/*<FormItem*/}
-                    {/*className="formitem_style"*/}
-                    {/*label="丢失时间"*/}
-                    {/*>*/}
-                    {/*{getFieldDecorator('time', {*/}
-                    {/*rules: [{*/}
-                    {/*required: true, message: '请输入联系电话！',*/}
-                    {/*}],*/}
-                    {/*})(*/}
-                    {/*<Input placeholder="例：星期三第二节课"/>*/}
-                    {/*)}*/}
-                    {/*</FormItem>*/}
-
                     <FormItem
                         className="formitem_style_img"
                         label="详情描述"

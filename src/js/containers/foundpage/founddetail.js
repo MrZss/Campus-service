@@ -13,7 +13,7 @@ class FoundDetail extends React.Component {
             summary_data: this.props.location.state.summary_data,
             goodsdata: this.props.location.state.goodsdata
         };
-        console.log(this.state.goodsdata)
+
 
     };
 

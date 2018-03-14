@@ -12,10 +12,8 @@ class Search extends React.Component {
     render() {
         return(
             <div className="search_mid">
-                <TypeSearch
-                    typeText={this.props.typeText}
-                    onTypeTextInput={this.props.handleTypeTextInput}
-                />
+
+                <div>遗失地点筛选</div>
                 <AreaSearch
                     areaText={this.props.areaText}
                     onAreaTextInput={this.props.handleAreaTextInput}

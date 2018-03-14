@@ -26,7 +26,8 @@ class PublishButtonCompoent extends React.Component {
                     <p className="publish">已发布</p>
                 </div>
                 <div className="publish_button" onClick={this.publishClick.bind(this)}>
-                    +
+                    <p>+</p>
+                    <p className="publish">发布</p>
                 </div>
             </div>
         );

@@ -16,8 +16,14 @@ class FoundTable extends React.Component {
         if(this.props.foundlistdata.results == undefined){
         }else{
             this.props.foundlistdata.results.forEach((goodsdata) => {
-                rows.push(<FoundRow goodsdata={goodsdata} key={goodsdata.id}/>)
-                console.log(goodsdata)
+                if(this.props.areaText == '全部'){
+                    rows.push(<FoundRow goodsdata={goodsdata} key={goodsdata.id}/>)
+                }else{
+                    if(goodsdata.area ==this.props.areaText ){
+                        rows.push(<FoundRow goodsdata={goodsdata} key={goodsdata.id}/>)
+                    }
+                }
+                
             });
         }
         return (
@@ -26,6 +32,7 @@ class FoundTable extends React.Component {
                    {rows}
                 </div>
             </div>
+
 
         );
     }

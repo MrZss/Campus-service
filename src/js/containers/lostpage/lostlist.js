@@ -11,8 +11,8 @@ class LostList extends React.Component {
         super(props);
         this.state = {
             LostListData: "",
-            areaText: "",
-            typeText: ""
+            areaText: "全部",
+            typeText: "全部"
         };
         this.handleAreaTextInput = this.handleAreaTextInput.bind(this);
         this.handleTypeTextInput = this.handleTypeTextInput.bind(this);
@@ -35,7 +35,7 @@ class LostList extends React.Component {
     }
 
     componentDidMount() {
-        var url = "http://47.94.17.111/api/v1/found_goods/?page=1&page_size=1"
+        var url = "http://47.94.17.111/api/v1/found_goods/"
         if ("fetch" in window) {
             fetch(url).then(function (response) {
                 return response.json();
@@ -61,10 +61,11 @@ class LostList extends React.Component {
             <div className="found_wrap">
                 <div className="found_list">
                     <div className="search_mid">
-                        <TypeSearch
-                            typeText={this.props.typeText}
-                            onTypeTextInput={this.handleTypeTextInput}
-                        />
+                        {/*<TypeSearch*/}
+                            {/*typeText={this.props.typeText}*/}
+                            {/*onTypeTextInput={this.handleTypeTextInput}*/}
+                        {/*/>*/}
+                        <div className="search_type">拾取地区筛选</div>
                         <AreaSearch
                             areaText={this.props.areaText}
                             onAreaTextInput={this.handleAreaTextInput}

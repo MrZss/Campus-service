@@ -12,7 +12,7 @@ class TypeSearch extends React.Component {
     handleTypeTextInputChange() {
         let sel = ReactDOM.findDOMNode(this.refs.selId);
         let selValue = sel.options[sel.selectedIndex].value;
-        // valuethis.props.filtStaff(selValue);
+
         this.props.onTypeTextInput(selValue)
     }
 

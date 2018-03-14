@@ -12,7 +12,30 @@ class PublishType extends React.Component {
     };
     constructor(props, context) {
         super(props, context);
+        this.state={
+            username:'',
+            key:'',
+
+        }
     };
+
+    componentDidMount() {
+        try {
+            if (localStorage.getItem('gengdanRoyalEmpireToken') !== null) {
+                this.setState({
+                    userName: localStorage.getItem('gengdanRoyalEmpireUsername'),
+                    key: localStorage.getItem('gengdanRoyalEmpireToken'),
+                    login: true,
+                });
+            } else {
+                alert("请先登录")
+                this.props.history.push('/login')
+            }
+        } catch (err) {
+            alert("请先登录")
+            this.props.history.push('/login')
+        }
+    }
     publishtypeClick(e){
         if(e.currentTarget.getAttribute('data-key') == "found"){
             this.context.router.history.push({

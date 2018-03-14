@@ -107,15 +107,6 @@ class FooteBar extends React.Component {
 
 
     render() {
-        // var rowStyle_found = {
-        //     backgroundColor: this.state.checked_found ? 'rgb(52, 148, 91)' : 'rgb(62, 203, 105)'
-        // };
-        // var rowStyle_lost = {
-        //     backgroundColor: this.state.checked_lost ? 'rgb(52, 148, 91)' : 'rgb(62, 203, 105)'
-        // };
-        // var rowStyle_my = {
-        //     backgroundColor: this.state.checked_my ? 'rgb(52, 148, 91)' : 'rgb(62, 203, 105)'
-        // };
         var rowStyle_found = {
             color: this.state.checked_found ? 'rgb(52, 148, 91)' : 'rgb(187, 187, 187)'
         };
@@ -133,7 +124,6 @@ class FooteBar extends React.Component {
                      onClick={this.found_handleClick.bind(this)}>
                     <i className="fa fa-archive fa-lg"  aria-hidden="true" />
                     寻物启事
-
                 </div>
                 <div className="footebar_wrap_list" id="lost"
                      style={rowStyle_lost}

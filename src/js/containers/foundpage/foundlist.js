@@ -8,7 +8,6 @@ import FooteBar from '../../components/footebar'
 import PropTypes from "prop-types";
 
 
-
 class FoundList extends React.Component {
     static contextTypes = {
         router: PropTypes.object
@@ -17,70 +16,72 @@ class FoundList extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            FoundListData : "",
-            areaText : "",
-            typeText : ""
+            FoundListData: "",
+            areaText: "全部",
+            typeText: "全部"
         };
         this.handleAreaTextInput = this.handleAreaTextInput.bind(this);
         this.handleTypeTextInput = this.handleTypeTextInput.bind(this);
 
     };
-    handleAreaTextInput(areaText){
+
+    handleAreaTextInput(areaText) {
         this.setState({
-            areaText:areaText
+            areaText: areaText
         });
-
-
     };
-    handleTypeTextInput(typeText){
+
+    handleTypeTextInput(typeText) {
         this.setState({
-            typeText:typeText
+            typeText: typeText
         });
 
     }
 
-    componentDidMount(){
-        var url = "http://47.94.17.111/api/v1/lost_goods/?page=1&page_size=1"
-        if ("fetch" in window){
+    componentDidMount() {
+        var url = "http://47.94.17.111/api/v1/lost_goods/"
+        if ("fetch" in window) {
             fetch(url).then(function (response) {
                 return response.json();
             }).then(function (jsonData) {
                 return jsonData;
             }).then((e) => {
                 this.setState({
-                    FoundListData:e
+                    FoundListData: e
                 })
             }).catch(function () {
-                console.log('出错了');
+
             });
         } else {
             // 不支持
-            console.log(321)
+
         }
 
 
     }
+
     render() {
         return (
             <div className="found_wrap">
-            <div className="found_list">
-                <div className="search_mid">
-                    <TypeSearch
-                        typeText={this.props.typeText}
-                        onTypeTextInput={this.handleTypeTextInput}
-                    />
-                    <AreaSearch
-                        areaText={this.props.areaText}
-                        onAreaTextInput={this.handleAreaTextInput}
+                <div className="found_list">
+                    <div className="search_mid">
+                        {/*<TypeSearch*/}
+                        {/*typeText={this.props.typeText}*/}
+                        {/*onTypeTextInput={this.handleTypeTextInput}*/}
+                        {/*/>*/}
+                        <div className="search_type">丢失地区筛选</div>
+                        <AreaSearch
+                            areaText={this.props.areaText}
+                            onAreaTextInput={this.handleAreaTextInput}
+                        />
+                    </div>
+                    <FoundTable
+                        foundlistdata={this.state.FoundListData}
+                        areaText={this.state.areaText}
+                        typeText={this.state.typeText}
                     />
                 </div>
-                <FoundTable
-                    foundlistdata={this.state.FoundListData}
-                    areaText={this.state.areaText}
-                    typeText={this.state.typeText}
-                />
-            </div>
-                <FooteBar />
+                <FooteBar/>
             </div>
         );
     }

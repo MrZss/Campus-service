@@ -29,7 +29,6 @@ class FoundRow extends React.Component {
 
     componentDidMount() {
         var url = "http://47.94.17.111/api/v1/goods_list/" + this.props.goodsdata.goods_name + ".json"
-        console.log(url)
         if ("fetch" in window) {
             fetch(url).then(function (response) {
                 return response.json();
@@ -40,16 +39,15 @@ class FoundRow extends React.Component {
                     summary_data: e
                 })
             }).catch(function () {
-                console.log('出错了');
+
             });
         } else {
             // 不支持
-            console.log(321)
+
         }
     }
 
     render() {
-        console.log(this.state.summary_data)
         let time = this.props.goodsdata.CREAT_TIME
         time = time.split('.')
         time = time[0].split('T')

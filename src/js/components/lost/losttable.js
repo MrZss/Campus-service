@@ -14,8 +14,13 @@ class LostTable extends React.Component {
         if(this.props.goodlistdata.results == undefined){
         }else{
             this.props.goodlistdata.results.forEach((goodsdata) => {
-                rows.push(<LostRow goodsdata={goodsdata} key={goodsdata.id}/>)
-                console.log(goodsdata)
+                if(this.props.areaText == '全部'){
+                    rows.push(<LostRow goodsdata={goodsdata} key={goodsdata.id}/>)
+                }else{
+                    if(goodsdata.area ==this.props.areaText ){
+                        rows.push(<LostRow goodsdata={goodsdata} key={goodsdata.id}/>)
+                    }
+                }
             });
         }
 

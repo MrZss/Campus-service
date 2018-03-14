@@ -35,6 +35,8 @@ class FoundPublish extends React.Component {
         super(props, context);
         this.state = {
             summary_data: '',
+            username: '',
+            key: '',
             goods_id: '',
             confirmDirty: false,
             autoCompleteResult: [],
@@ -50,96 +52,83 @@ class FoundPublish extends React.Component {
         }
     };
 
-    // nextstephandleClick(){
-    //     this.context.router.history.push({
-    //         pathname: '/lostdetailpublish',
-    //         state: {
-    //             goods_id:this.state.goods_id
-    //         }
-    //     });
-    // }
-
 
     handleSubmit = (e) => {
-        e.preventDefault();
-        this.props.form.validateFields((err, values) => {
-                if (!err) {
-                    let formData = new FormData()
-                    let file = {url: values.img, type: 'application/octet-stream', name: 'image.jpg'};
-                    formData.append('files', file)
-                    let data = {
-                        "name": values.name,
-                        "type": values.type,
-                        "color": values.color,
-                        "picture": null,
-                        "detail": values.detail,
-                    }
-                    data = JSON.stringify(data)
-                    console.log(values)
+        let form = this.refs.form1
+        let formData = new FormData(form)
 
 
-                    fetch('http://47.94.17.111/api/v1/goods_list/', {
-                            method: 'POST',
-                            headers: {
-                                'Accept': 'application/json',
-                                'Content-Type': 'application/json',
-                                'Authorization': 'Token 6663eeec7aab61768572a77bbbd6a44c83070516',
-
-
-                            },
-                            body: data
-
-                        }
-                    ).then(res => res.text())
-                        .then(function (res) {
-                                let id = JSON.parse(res)._id
-                                return id
-
-                            }
-                        ).then((id) =>
-                        this.context.router.history.push({
-                            pathname: '/founddetailpublish',
-                            state: {
-                                goods_id: id
-                            }
-                        })
-                    ).catch(function (e) {
-                        console.log("Oops, error");
-                        alert("网络错误")
-                    });
-
-
-                }
+        fetch('http://47.94.17.111/api/v1/goods_list/', {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Authorization': 'Token' + ' ' + localStorage.getItem('gengdanRoyalEmpireToken'),
+                },
+                body: formData
 
             }
-        )
-        ;
+        ).then(res => res.text())
+            .then(function (res) {
+                    let id = JSON.parse(res)._id
+                    return id
+                }
+            )
+            .then((id) =>
+                this.context.router.history.push({
+                    pathname: '/founddetailpublish',
+                    state: {
+                        goods_id: id
+                    }
+                })
+            )
+            .catch(function (e) {
+                console.log("Oops, error");
+                alert("网络错误")
+            });
 
+
+        e.preventDefault();
+
+
+    }
+    getBase64Image = (img) => {
+        var canvas = document.createElement("canvas");
+        canvas.width = img.width;
+        canvas.height = img.height;
+        var ctx = canvas.getContext("2d");
+        ctx.drawImage(img, 0, 0, img.width, img.height);
+        var ext = img.src.substring(img.src.lastIndexOf(".") + 1).toLowerCase();
+        var dataURL = canvas.toDataURL("image/" + ext);
+        return dataURL;
+    }
+
+    componentDidMount() {
+        try {
+            if (localStorage.getItem('gengdanRoyalEmpireToken') !== null) {
+                this.setState({
+                    userName: localStorage.getItem('gengdanRoyalEmpireUsername'),
+                    key: localStorage.getItem('gengdanRoyalEmpireToken'),
+                });
+            } else {
+                alert("请先登录")
+                this.props.history.push('/login')
+            }
+        } catch (err) {
+            alert("请先登录")
+            this.props.history.push('/login')
+        }
     }
 
 //上传图片
 
-    handleCancel = () => this.setState({previewVisible: false})
-    handlePreview = (file) => {
-        this.setState({
-            previewImage: file.url || file.thumbUrl,
-            previewVisible: true,
-        });
-    }
-
-    handleChange = ({fileList}) => this.setState({fileList})
-
 //详情输入框
-    onChange(editorState) {
-        console.log(toString(editorState));
-    }
+
 
     normFile = (e) => {
 
         if (Array.isArray(e)) {
             return e;
         }
-        console.log(e.fileList)
         return e && e.fileList;
     }
 
@@ -186,35 +175,37 @@ class FoundPublish extends React.Component {
                 <div className="detail_title_down">
                     <p>智能匹配</p>
                 </div>
-                <Form onSubmit={this.handleSubmit.bind(this)} type="flex" className="from_style">
+                <form name="form1" ref="form1" id="form1" className="from_style">
                     <FormItem
                         className="formitem_style"
                         label="物品名称"
+                        name="name"
                     >
                         {getFieldDecorator('name', titleConfig)(
-                            <Input placeholder='物品名称'/>
+                            <Input name="name" placeholder='物品名称'/>
                         )}
                     </FormItem>
                     <FormItem
                         className="formitem_style"
                         label="物品颜色"
+                        name="color"
                     >
                         {getFieldDecorator('color', titleConfig)(
-                            <Input placeholder='物品颜色'/>
+                            <Input name="color" placeholder='物品颜色'/>
                         )}
                     </FormItem>
 
                     <FormItem
                         className="formitem_style"
                         label="分类"
-
+                        name="type"
                     >
                         {getFieldDecorator('type', {
                             rules: [{required: true, message: 'Please select your gender!'}],
                         })(
                             <div className="publish_styled_select">
                                 <div className="styled-select">
-                                    <select style={selectStyle}>
+                                    <select name="type" style={selectStyle}>
                                         <option value='全部'>物品种类</option>
                                         <option value='饭卡'>饭卡</option>
                                         <option value='钥匙'>钥匙</option>
@@ -232,28 +223,28 @@ class FoundPublish extends React.Component {
                         )}
                     </FormItem>
                     <FormItem
-
-                        label="Password"
-
+                        label="上传图片"
+                        name="picture"
                     >
-                        {getFieldDecorator('img', {
+                        {getFieldDecorator('picture', {
                             rules: [{
                                 required: true, message: 'Please input your password!',
                             }, {
                                 validator: this.checkConfirm,
                             }],
                         })(
-                            <Input type="file"/>
+                            <Input name="picture" type="file"/>
                         )}
                     </FormItem>
 
                     <FormItem>
-                        <Button type="primary"
-                                htmlType="submit">下一步</Button>
+                        <input type="button" name="b1" className="post_btn" value="下一步" onClick={this.handleSubmit.bind(this)}/>
                     </FormItem>
 
-                </Form>
+                </form>
             </div>
+
+
         );
     }
 }

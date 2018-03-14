@@ -27,7 +27,7 @@ class LostRow extends React.Component {
     }
     componentDidMount(){
         var url = "http://47.94.17.111/api/v1/goods_list/" + this.props.goodsdata.goods_name + ".json"
-        console.log(url)
+
         if ("fetch" in window){
             fetch(url).then(function (response) {
                 return response.json();
@@ -47,7 +47,7 @@ class LostRow extends React.Component {
     }
 
     render() {
-        console.log(this.state.summary_data)
+
         var time = this.props.goodsdata.CREAT_TIME
         time = time.split('.')
         time = time[0].split('T')

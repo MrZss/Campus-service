@@ -23,11 +23,12 @@ class AreaSearch extends React.Component {
             <div className="search_type">
                 <div className="styled_select">
                     <select id='orderSelect' ref="selId" style={selectStyle} onChange={this.handlerIdChange.bind(this)}>
-                        <option value='丢失地点'>丢失地点</option>
+                        <option value='全部'>丢失地点</option>
                         <option value='A区教室'>A区教室</option>
                         <option value='B区教室'>B区教室</option>
                         <option value='C区教室'>C区教室</option>
                         <option value='D区教室'>D区教室</option>
+                        <option value='食堂'>食堂</option>
                         <option value='国际交流中心'>国际交流中心</option>
                         <option value='学生公寓1号楼'>学生公寓1号楼</option>
                         <option value='学生公寓2号楼'>学生公寓2号楼</option>
@@ -43,6 +44,7 @@ class AreaSearch extends React.Component {
                         <option value='洗浴中心'>洗浴中心</option>
                         <option value='水房'>水房</option>
                         <option value='教室公寓'>教室公寓</option>
+
                         <option value='其他'>其他</option>
                     </select>
                 </div>
